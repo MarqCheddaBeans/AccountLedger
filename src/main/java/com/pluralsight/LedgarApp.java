@@ -1,6 +1,10 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LedgarApp {
@@ -17,20 +21,33 @@ public class LedgarApp {
 
         int choice = displayMainMenu();
 
+
+
         //Split transaction info into array named transInfo
       String line;
-      while((line = buffRead.readLine()) != null){
+      while((line = buffRead.readLine()) != null) {
           buffRead.readLine();
           String[] transInfo = line.split("\\|");
-          buffRead.close();
-      }
+          //buffRead.close();
 
+
+          try {
+              LocalDate date = LocalDate.parse(transInfo[0]);
+              LocalTime time = LocalTime.parse(transInfo[1]);
+              String description = transInfo[2];
+              String vendor = transInfo[3];
+              double amount = Double.parseDouble(transInfo[4]);
+
+              Transaction trans = new Transaction(date,time,description,vendor,amount);
+              System.out.println(trans.getDate());
+          }catch(DateTimeException e){
+              System.out.print("");
+          }
+      }
 
         if(choice == 1){
             System.out.println("Add Deposit: ");
-            System.out.println("Enter Description (ex. Invoice 1001 paid");
-
-
+           System.out.println("Enter Description (ex. Invoice 1001 paid");
         }
 
     }
@@ -63,7 +80,7 @@ public class LedgarApp {
             buffRead.readLine();
             String line;
             while((line = buffRead.readLine())!= null)
-            System.out.println(line);
+             System.out.println(line);
             buffRead.close();
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
