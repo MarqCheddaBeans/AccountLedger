@@ -9,6 +9,12 @@ public class LedgarApp {
 
     public static void main(String[] args) {
 
+        userLogin();
+
+
+    }
+
+    private static void userLogin() {
         String validUser = "Marques123";
         String validPass = "notPassword";
 
@@ -29,7 +35,5 @@ public class LedgarApp {
             System.out.print("Password: ");
             password = scan.nextLine();
         }
-
-
     }
 }
