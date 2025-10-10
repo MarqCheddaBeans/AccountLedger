@@ -20,7 +20,6 @@ public class LedgarApp {
         //Create BufferWriter w/ FileWriter , file name + bool value to allow append information
         BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true));
 
-//        displayFullLedger();
         //Method to prompt user to login
         userLogin();
 
@@ -55,13 +54,15 @@ public class LedgarApp {
             userDeposit(buffWrite);
         } else if (choice == 2) {
             userPayment(buffWrite);
+        } else if(choice == 3){
+            displayFullLedger();
         }
 
     }
 
     private static void userPayment(BufferedWriter buffWrite) throws IOException {
         System.out.println("Make a payment:");
-        System.out.println("Enter Description (ex. garnishment");
+        System.out.println("Enter Description (ex. garnishment)");
 
         String description = scan.nextLine();
 
@@ -94,10 +95,10 @@ public class LedgarApp {
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = time.format(timeFormat);
 
-        buffWrite.write("\n" + formattedDate + "| ");
-        buffWrite.write(formattedTime + "| ");
-        buffWrite.write(description + "| ");
-        buffWrite.write(vendor + "| ");
+        buffWrite.write("\n" + formattedDate + "  |");
+        buffWrite.write(formattedTime + "   |");
+        buffWrite.write(description + "            |");
+        buffWrite.write(vendor + "    |");
         buffWrite.write(amount +"");  //Trouble w/o adding ""
         //Close buffWriter or else information will not write to file
         buffWrite.close();
@@ -138,10 +139,10 @@ public class LedgarApp {
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = time.format(timeFormat);
 
-        buffWrite.write("\n" + formattedDate + "| ");
-        buffWrite.write(formattedTime + "| ");
-        buffWrite.write(description + "| ");
-        buffWrite.write(vendor + "| ");
+        buffWrite.write("\n" + formattedDate + "  |");
+        buffWrite.write(formattedTime + "   |");
+        buffWrite.write(description + "            |");
+        buffWrite.write(vendor + "    |");
         buffWrite.write(amount +"");  //Trouble w/o adding ""
         //Close buffWriter or else information will not write to file
         buffWrite.close();
@@ -173,7 +174,7 @@ public class LedgarApp {
         try {
             BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
             //Skip first line in .csv file
-            buffRead.readLine();
+           // buffRead.readLine();
             String line;
             while((line = buffRead.readLine())!= null)
              System.out.println(line);
