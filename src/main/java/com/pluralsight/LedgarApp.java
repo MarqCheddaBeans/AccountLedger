@@ -11,9 +11,28 @@ public class LedgarApp {
 
         userLogin();
 
+        System.out.println("What would you like to do today?");
+        System.out.println("""
+                1) Add deposit
+                2) Make a payment(Debit)
+                3) Ledger
+                4) Exit
+                """);
+        int choice = scan.nextInt();
+        while (choice<=0 || choice>=6){
+            System.out.println("Invalid input. Try again");
+            System.out.println("""
+                1) Add deposit
+                2) Make a payment(Debit)
+                3) Ledger
+                4) Exit
+                """);
+            choice = scan.nextInt();
+        }
+
 
     }
-
+// Method that prompts user to log in
     private static void userLogin() {
         String validUser = "Marques123";
         String validPass = "notPassword";
@@ -27,7 +46,7 @@ public class LedgarApp {
             System.out.print("Username: ");
             userName = scan.nextLine();
         }
-        System.out.print("\nPassword: ");
+        System.out.print("Password: ");
         String password = scan.nextLine();
 
         while(!password.equals(validPass)){
@@ -35,5 +54,6 @@ public class LedgarApp {
             System.out.print("Password: ");
             password = scan.nextLine();
         }
+        System.out.println("Welcome Marques!");
     }
 }
