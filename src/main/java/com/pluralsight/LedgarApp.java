@@ -5,7 +5,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LedgarApp {
@@ -14,7 +13,11 @@ public class LedgarApp {
     public static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
+
+        //Create BufferReader w/FileReader to read our csv file
         BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
+
+        //Create BufferWriter w/ FileWriter , file name + bool value to allow append information
         BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true));
 
 //        displayFullLedger();
@@ -45,15 +48,59 @@ public class LedgarApp {
               System.out.print("");
           }
       }
-
+        //Hungry buffer
         scan.nextLine();
 
         if(choice == 1){
             userDeposit(buffWrite);
-
-
+        } else if (choice == 2) {
+            userPayment(buffWrite);
         }
 
+    }
+
+    private static void userPayment(BufferedWriter buffWrite) throws IOException {
+        System.out.println("Make a payment:");
+        System.out.println("Enter Description (ex. garnishment");
+
+        String description = scan.nextLine();
+
+        while(description.equalsIgnoreCase("")){
+            System.out.println("Bad description...Try Again");
+            description = scan.nextLine();
+        }
+
+        System.out.println("Enter Vendor (ex. Uncle Sam)");
+        String vendor = scan.nextLine();
+
+        while(vendor.equalsIgnoreCase("")){
+            System.out.println("Um...No, Try Again");
+            vendor = scan.nextLine();
+        }
+
+        System.out.println("How much did you spend this time??");
+        double amount = scan.nextDouble();
+
+        while(amount >=0){
+            System.out.println("Enter a valid number");
+            amount = scan.nextDouble();
+        }
+
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = date.format(dateFormat);
+
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedTime = time.format(timeFormat);
+
+        buffWrite.write("\n" + formattedDate + "| ");
+        buffWrite.write(formattedTime + "| ");
+        buffWrite.write(description + "| ");
+        buffWrite.write(vendor + "| ");
+        buffWrite.write(amount +"");  //Trouble w/o adding ""
+        //Close buffWriter or else information will not write to file
+        buffWrite.close();
     }
 
     private static void userDeposit(BufferedWriter buffWrite) throws IOException {
