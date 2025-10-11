@@ -367,24 +367,42 @@ public class LedgarApp {
     // Method that prompts user to log in
     private static void userLogin() {
         String validUser = "Marques123";
-        String validPass = "notPassword";
+        String validPass = "notMyPass";
 
         System.out.println("Please log in to your account.");
-        System.out.print("Username: ");
-        String userName = scan.nextLine();
 
-        while(!userName.equalsIgnoreCase(validUser) ){
-            System.out.println("Invalid username. Try again!");
+        for(int attempt = 3; attempt > 0; attempt--){
             System.out.print("Username: ");
-            userName = scan.nextLine();
-        }
-        System.out.print("Password: ");
-        String password = scan.nextLine();
+            String userName = scan.nextLine();
 
-        while(!password.equals(validPass)){
-            System.out.println("Invalid password. Try again!");
-            System.out.print("Password: ");
-            password = scan.nextLine();
+            if(userName.equalsIgnoreCase(validUser)){
+                break;
+            }
+                else if(attempt == 1){
+                System.out.println("No more attempts! Try again later");
+                System.exit(0);
+            }
+                else{
+                System.out.println("Incorrect Username | Attempts remaining: " + (attempt-1));
+            }
+        }
+
+        for(int attempt = 3; attempt > 0; attempt--){
+
+            System.out.print("Please enter password: ");
+            String password = scan.nextLine();
+
+            if(password.equals(validPass)){
+                break;
+            }
+                else if(attempt == 1){
+                System.out.println("No more attempts! Try again later");
+                System.exit(0);
+            }
+                else{
+                System.out.println("Incorrect Password | Attempts remaining: " + (attempt-1));
+            }
+
         }
         System.out.println("Welcome Marques!");
     }
