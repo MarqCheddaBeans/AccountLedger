@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class LedgarApp {
@@ -16,76 +17,184 @@ public class LedgarApp {
 
     public static void main(String[] args) throws IOException {
 
-//        ArrayList<Transaction> transactions = new ArrayList<>();
-
-        //Create BufferReader w/FileReader to read our csv file
-        BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
-
-        //Create BufferWriter w/ FileWriter , file name + bool value to allow append information
-        //BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"));
-
         //Method to prompt user to login
-       // userLogin();
+         userLogin();
 
         //Method to display main menu
         int choice = displayMainMenu();
 
-        //Split transaction info into array named transInfo
-//      String line;
-//      while((line = buffRead.readLine()) != null) {
-//          //buffRead.readLine();
-//          String[] transInfo = line.split("\\|");
-//
-//        //Creating variables + storing individual information from split transaction.csv
-//         try {
-//              LocalDate date = LocalDate.parse(transInfo[0]);
-//              LocalTime time = LocalTime.parse(transInfo[1]);
-//              String description = transInfo[2];
-//              String vendor = transInfo[3];
-//              double amount = Double.parseDouble(transInfo[4]);
-//
-//              Transaction trans = new Transaction(date,time,description,vendor,amount);
-//
-//          }catch(DateTimeException e){
-//              System.out.print("");
-//          }
-//      }
         //Hungry buffer
         scan.nextLine();
 
-        if(choice == 1){
+        //if statements to allow user to navigate through menu
+        //User chose to add deposit
+        if(choice == 1) {
             userDeposit();
-        } else if (choice == 2) {
+            }
+
+        //User chose to add a payment
+        else if (choice == 2) {
             userPayment();
-        } else if(choice == 3) {
-
-            System.out.println("""
-                    How would you like to view ledgers?
-                    1) All Ledgers
-                    2) Deposits
-                    3) Payments
-                    4) Reports
-                    """);
-            int input = 0;
-            input = scan.nextInt();
-
-            while (input <= 0 || input >= 5) {
-                System.out.println("Not a valid input..Try Again");
-                input = scan.nextInt();
             }
 
-            if (input == 1) {
+        //User chose to display Ledger
+        else if(choice == 3) {
+
+            //Display ledger menu for user
+            int input = ledgerMenu();
+
+                //User chose to display full ledger
+                if (input == 1) {
                 displayFullLedger();
+                    }
 
-            } else if (input == 2) {
+                //User chose to display only deposits from ledger
+                else if (input == 2) {
+                    sortByDeposits();
+                    }
 
+                //User chose to display only payments from ledger
+                else if (input == 3) {
+                    sortByPayments();
+                    }
+
+                //User chose to run custom search
+                else if(input == 4) {
+                // A new screen that allows the user to run pre-defined reports or to run a custom search
+                    }
+            //User chose to return to main menu/ homepage
+            else if(input == 5){
+                //Home - go back to home page
             }
 
-
+        //User chose to close application
         }else if (choice == 4) {
                 System.out.println("Closing Ledger Application");
                 System.exit(0);
             }
+    }
+
+    private static void sortByPayments(){
+
+        //Create an arraylist named payment with Transaction object class
+        ArrayList<Transaction> payment = new ArrayList<>();
+
+        //Try with resources will automatically close reader when finished
+        try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
+
+            //Read through csv file until last line, store read line in String named lines
+            String lines;
+            while((lines = buffRead.readLine()) !=null){
+
+                //Create array for transaction information (transInfo) sort transaction information splitting
+                String[] transInfo = lines.split("\\|");
+
+                //Skips the header
+                if(transInfo[0].trim().equalsIgnoreCase("Date")){
+                    continue;
+                }
+                //try/catch block to parse + store information extracted from line in file
+                try{
+                    //Declare LocalDate named date and set value to index 0 of transInfo after parsing from String to LocalDate
+                    LocalDate date = LocalDate.parse(transInfo[0].trim());
+                    //Declare LocalTime named time and set value to index 1 of transInfo after parsing from String to LocalTime
+                    LocalTime time = LocalTime.parse(transInfo[1].trim());
+                    String description = transInfo[2].trim();
+                    String vendor = transInfo[3].trim();
+                    //Declare double named amount and set value to index 4 of transInfo after parsing from String to double
+                    double amount = Double.parseDouble(transInfo[4].trim());
+
+                    // Negative amounts = payments, only add payments to payment ArrayList
+                    if (amount < 0) {
+                        payment.add(new Transaction(date, time, description, vendor, amount));
+                    }
+                    //catch any exception store in e + display text
+                } catch(Exception e){
+                    System.out.println("WHAT DID YOU DO!?");
+                }
+            }
+            //Sort by date and time (.reversed() will sort newest at the top)
+            payment.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+
+            //Create String named header to add header to be displayed to user
+            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            System.out.println(header);
+
+            //Loop through all Transaction objects in the payment ArrayList
+            for(Transaction t: payment){
+                //Print out formatted version of information contained in Transaction defined as t, (%-12s = Left align String with 12 character space, %10.2f = Right aligned float with 10 character space and shows 2 decimal points)
+                System.out.printf("%-12s| %-11s| %-50s| %-22s|%10.2f\n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            }
+            //Handle IOException displaying text to console
+        }   catch(IOException e){
+            System.out.println("Oh Noo!");
+        }
+
+    }
+
+    private static void sortByDeposits(){
+
+        List<Transaction> deposits = new ArrayList<>();
+
+        try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
+
+            String lines;
+                while((lines = buffRead.readLine()) !=null){
+
+                    String[] transInfo = lines.split("\\|");
+
+                    //Skips the header
+                    if(transInfo[0].trim().equalsIgnoreCase("Date")){
+                        continue;
+                    }
+
+                    try{
+                        LocalDate date = LocalDate.parse(transInfo[0].trim());
+                        LocalTime time = LocalTime.parse(transInfo[1].trim());
+                        String description = transInfo[2].trim();
+                        String vendor = transInfo[3].trim();
+                        double amount = Double.parseDouble(transInfo[4].trim());
+
+                        //Add split up transaction to defined Transaction ArrayList
+                        if (amount > 0) {
+                            deposits.add(new Transaction(date, time, description, vendor, amount));
+                        }
+                    } catch(Exception e){
+                        System.out.println("WHAT DID YOU DO!?");
+                    }
+                }
+                //Sort by date and time (.reversed() will sort newest at the top)
+                deposits.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+
+            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            System.out.println(header);
+
+            for(Transaction t: deposits){
+                    System.out.printf("%-12s| %-11s| %-50s| %-22s|%10.2f\n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                }
+
+        }   catch(IOException e){
+            System.out.println("Oh Noo!");
+        }
+    }
+
+
+    private static int ledgerMenu() {
+        System.out.println("""
+                How would you like to view ledgers?
+                1) All Ledgers
+                2) Deposits
+                3) Payments
+                4) Reports
+                """);
+        int input = 0;
+        input = scan.nextInt();
+
+        while (input <= 0 || input >= 5) {
+            System.out.println("Not a valid input..Try Again");
+            input = scan.nextInt();
+        }
+        return input;
     }
 
     private static void userPayment() {
