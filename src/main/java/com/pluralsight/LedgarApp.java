@@ -204,15 +204,10 @@ public class LedgarApp {
     }
 
     private static void displayFullLedger() {
-        try {BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
+        try (BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"))){
+
             ArrayList<Transaction> transactions = new ArrayList<>();
-            //Skip first line in .csv file
-           // buffRead.readLine();
-            String line;
-            while((line = buffRead.readLine())!= null) {
-                System.out.println(line);
-                //buffRead.close();
-            }
+
             String lines;
             while((lines = buffRead.readLine()) != null) {
                 //buffRead.readLine();
@@ -220,40 +215,43 @@ public class LedgarApp {
 
                 //Creating variables + storing individual information from split transaction.csv
                 try {
-                    LocalDate date = LocalDate.parse(transInfo[0]);
-                    LocalTime time = LocalTime.parse(transInfo[1]);
-                    String description = transInfo[2];
-                    String vendor = transInfo[3];
-                    double amount = Double.parseDouble(transInfo[4]);
+                    LocalDate date = LocalDate.parse(transInfo[0].trim());
+                    LocalTime time = LocalTime.parse(transInfo[1].trim());
+                    String description = transInfo[2].trim();
+                    String vendor = transInfo[3].trim();
+                    double amount = Double.parseDouble(transInfo[4].trim());
 
-                    Transaction trans = new Transaction(date, time, description, vendor, amount);
+                    //Transaction trans = new Transaction(date, time, description, vendor, amount);
 
-                    //Add split up transaction to ArrayList
-                    transactions.add(trans);
+                    //Add split up transaction to defined Transaction ArrayList
+                    transactions.add(new Transaction(date,time,description,vendor,amount));
 
-                } catch (DateTimeException e) {
+                } catch (DateTimeException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
                     System.out.print("");
                 }
+
             }
             //Sort transactions by date and time, reverse for newest transactions at the top
-            transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
+            transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
-            try {BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"));
+            try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"))){
 
+                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount\n");
+                buffWrite.write(header);
+
+                System.out.print(header);
                 for(Transaction t : transactions) {
-                    String formatInfo = t.getDate() + "     |" + t.getTime() + "        |" + t.getDescription() + "         |" + t.getVendor() + "      |" + t.getAmount();
+                    String formatInfo = String.format("%-12s| %-11s| %-50s| %-22s|%10.2f", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                    System.out.println(formatInfo);
                     buffWrite.write(formatInfo);
                     buffWrite.newLine();
                 }
             } catch (IOException e) {
-                System.out.println("Woa");
+                System.out.println("Woa, theres a problem here.");
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File Not Found.");
-            throw new RuntimeException(e);
-        } catch (IOException e){
-            throw new RuntimeException(e);
         }
     }
 
