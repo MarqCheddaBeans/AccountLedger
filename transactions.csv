@@ -1,6 +1,9 @@
-Date        |Time       |Description            |Vendor         |Amount
-2023-04-15  |10:13:25   |Ergonomic keyboard     |Amazon         |-89.50
-2023-04-15  |11:15:00   |Invoice 1001 paid      |Joe            |1500.00
-2025-10-10  |18:42:07   |Wisely                 |YUU            |50.0
-2025-10-10  |19:44:56   |Debt Repayment         |Debt Collector |-150.0
-2025-10-10  |19:57:44   |I dont know            |I dont know    |500.0
+Date        | Time       | Description                                       | Vendor                | Amount
+2025-10-10  | 19:44:56   | Debt Repayment                                    | Debt Collector        | -150.0
+2023-04-15  | 10:13:25   | Ergonomic keyboard                                | Amazon                | -89.50
+2023-04-15  | 11:15:00   | Invoice 1001 paid                                 | Joe                   | 1500.00
+2025-10-10  | 18:42:07   | Wisely                                            | YUU                   | 50.00
+2025-10-11  | 10:13:46   | Wisely                                            | YUU                   | 50.00
+2025-10-11  | 11:32:23   | Wisely                                            | YearUpUnited          |     50.00
+2025-10-11  | 11:34:40   | Garnishment                                       | Uncle Sam             |  -3500.00
+2025-10-11  | 11:36:46   | Wisely                                            | YearUpUnited          |     50.00

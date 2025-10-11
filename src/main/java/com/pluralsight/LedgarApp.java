@@ -5,6 +5,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class LedgarApp {
@@ -14,53 +16,79 @@ public class LedgarApp {
 
     public static void main(String[] args) throws IOException {
 
+//        ArrayList<Transaction> transactions = new ArrayList<>();
+
         //Create BufferReader w/FileReader to read our csv file
         BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
 
         //Create BufferWriter w/ FileWriter , file name + bool value to allow append information
-        BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true));
+        //BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"));
 
         //Method to prompt user to login
-        userLogin();
+       // userLogin();
 
         //Method to display main menu
         int choice = displayMainMenu();
 
         //Split transaction info into array named transInfo
-      String line;
-      while((line = buffRead.readLine()) != null) {
-          //buffRead.readLine();
-          String[] transInfo = line.split("\\|");
-
-        //Creating variables + storing individual information from split transaction.csv
-          try {
-              LocalDate date = LocalDate.parse(transInfo[0]);
-              LocalTime time = LocalTime.parse(transInfo[1]);
-              String description = transInfo[2];
-              String vendor = transInfo[3];
-              double amount = Double.parseDouble(transInfo[4]);
-
-              Transaction trans = new Transaction(date,time,description,vendor,amount);
-
-              System.out.println(trans.getTime());
-          }catch(DateTimeException e){
-              System.out.print("");
-          }
-      }
+//      String line;
+//      while((line = buffRead.readLine()) != null) {
+//          //buffRead.readLine();
+//          String[] transInfo = line.split("\\|");
+//
+//        //Creating variables + storing individual information from split transaction.csv
+//         try {
+//              LocalDate date = LocalDate.parse(transInfo[0]);
+//              LocalTime time = LocalTime.parse(transInfo[1]);
+//              String description = transInfo[2];
+//              String vendor = transInfo[3];
+//              double amount = Double.parseDouble(transInfo[4]);
+//
+//              Transaction trans = new Transaction(date,time,description,vendor,amount);
+//
+//          }catch(DateTimeException e){
+//              System.out.print("");
+//          }
+//      }
         //Hungry buffer
         scan.nextLine();
 
         if(choice == 1){
-            userDeposit(buffWrite);
+            userDeposit();
         } else if (choice == 2) {
-            userPayment(buffWrite);
-        } else if(choice == 3){
-            displayFullLedger();
-        }
+            userPayment();
+        } else if(choice == 3) {
 
+            System.out.println("""
+                    How would you like to view ledgers?
+                    1) All Ledgers
+                    2) Deposits
+                    3) Payments
+                    4) Reports
+                    """);
+            int input = 0;
+            input = scan.nextInt();
+
+            while (input <= 0 || input >= 5) {
+                System.out.println("Not a valid input..Try Again");
+                input = scan.nextInt();
+            }
+
+            if (input == 1) {
+                displayFullLedger();
+
+            } else if (input == 2) {
+
+            }
+
+
+        }else if (choice == 4) {
+                System.out.println("Closing Ledger Application");
+                System.exit(0);
+            }
     }
 
-    private static void userPayment(BufferedWriter buffWrite) throws IOException {
+    private static void userPayment() {
         System.out.println("Make a payment:");
         System.out.println("Enter Description (ex. garnishment)");
 
@@ -82,10 +110,12 @@ public class LedgarApp {
         System.out.println("How much did you spend this time??");
         double amount = scan.nextDouble();
 
-        while(amount >=0){
+        while(amount <=0){
             System.out.println("Enter a valid number");
             amount = scan.nextDouble();
         }
+        //Turn user amount negative to represent payment
+        amount *= -1;
 
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -95,16 +125,18 @@ public class LedgarApp {
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = time.format(timeFormat);
 
-        buffWrite.write("\n" + formattedDate + "  |");
-        buffWrite.write(formattedTime + "   |");
-        buffWrite.write(description + "            |");
-        buffWrite.write(vendor + "    |");
-        buffWrite.write(amount +"");  //Trouble w/o adding ""
-        //Close buffWriter or else information will not write to file
-        buffWrite.close();
+        try {BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true));
+
+            String newLine = String.format("%-12s| %-11s| %-50s| %-22s|%10.2f", formattedDate, formattedTime, description, vendor, amount);
+            buffWrite.write("\n"+newLine);
+            //Close buffWriter or else information will not write to file
+            buffWrite.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private static void userDeposit(BufferedWriter buffWrite) throws IOException {
+    private static void userDeposit(){
         System.out.println("Add Deposit: ");
         System.out.println("Enter Description (ex. Invoice 1001 paid)");
 
@@ -139,13 +171,14 @@ public class LedgarApp {
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = time.format(timeFormat);
 
-        buffWrite.write("\n" + formattedDate + "  |");
-        buffWrite.write(formattedTime + "   |");
-        buffWrite.write(description + "            |");
-        buffWrite.write(vendor + "    |");
-        buffWrite.write(amount +"");  //Trouble w/o adding ""
-        //Close buffWriter or else information will not write to file
-        buffWrite.close();
+        try { BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true));
+            String newLine = String.format("%-12s| %-11s| %-50s| %-22s|%10.2f", formattedDate, formattedTime, description, vendor, amount);
+            buffWrite.write("\n"+newLine);
+            //Close buffWriter or else information will not write to file
+            buffWrite.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static int displayMainMenu() {
@@ -171,21 +204,57 @@ public class LedgarApp {
     }
 
     private static void displayFullLedger() {
-        try {
-            BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
+        try {BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"));
+            ArrayList<Transaction> transactions = new ArrayList<>();
             //Skip first line in .csv file
            // buffRead.readLine();
             String line;
-            while((line = buffRead.readLine())!= null)
-             System.out.println(line);
-            buffRead.close();
+            while((line = buffRead.readLine())!= null) {
+                System.out.println(line);
+                //buffRead.close();
+            }
+            String lines;
+            while((lines = buffRead.readLine()) != null) {
+                //buffRead.readLine();
+                String[] transInfo = lines.split("\\|");
+
+                //Creating variables + storing individual information from split transaction.csv
+                try {
+                    LocalDate date = LocalDate.parse(transInfo[0]);
+                    LocalTime time = LocalTime.parse(transInfo[1]);
+                    String description = transInfo[2];
+                    String vendor = transInfo[3];
+                    double amount = Double.parseDouble(transInfo[4]);
+
+                    Transaction trans = new Transaction(date, time, description, vendor, amount);
+
+                    //Add split up transaction to ArrayList
+                    transactions.add(trans);
+
+                } catch (DateTimeException e) {
+                    System.out.print("");
+                }
+            }
+            //Sort transactions by date and time, reverse for newest transactions at the top
+            transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
+
+            try {BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"));
+
+                for(Transaction t : transactions) {
+                    String formatInfo = t.getDate() + "     |" + t.getTime() + "        |" + t.getDescription() + "         |" + t.getVendor() + "      |" + t.getAmount();
+                    buffWrite.write(formatInfo);
+                    buffWrite.newLine();
+                }
+            } catch (IOException e) {
+                System.out.println("Woa");
+            }
+
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
             throw new RuntimeException(e);
         } catch (IOException e){
             throw new RuntimeException(e);
         }
-
     }
 
     // Method that prompts user to log in
