@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -73,7 +72,7 @@ public class LedgarApp {
                         sortPreviousMonth();
                     }
                     else if(reportInput == 3){
-                        //sort year to date
+                        sortYearToDate();
                     }
                     else if(reportInput == 4){
                         sortPreviousYear();
@@ -195,6 +194,60 @@ public class LedgarApp {
             }
 
 
+
+    }
+
+
+    private static void sortYearToDate(){
+
+        ArrayList<Transaction> yearToDate = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+        LocalDate oneYearAgo = today.minusYears(1);
+
+        try(BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"))){
+
+            String line;
+            while((line = buffRead.readLine()) != null) {
+
+                String[] transInfo = line.split("\\|");
+
+                //Skip heading
+                if (transInfo[0].trim().equalsIgnoreCase("Date")) {
+                    continue;
+                }
+
+                try {
+
+                    LocalDate date = LocalDate.parse(transInfo[0].trim());
+                    LocalTime time = LocalTime.parse(transInfo[1].trim());
+                    String description = transInfo[2].trim();
+                    String vendor = transInfo[3].trim();
+                    double amount = Double.parseDouble(transInfo[4].trim());
+
+                    if (!date.isBefore(oneYearAgo) && !date.isAfter(today)) {
+                        yearToDate.add(new Transaction(date, time, description, vendor, amount));
+                    }
+                } catch (Exception e) {
+                    System.out.println("Woah");
+                }
+            }
+
+                yearToDate.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
+                //Create String named header to add header to be displayed to user
+                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+                System.out.println(header);
+
+                //Loop through all Transaction objects in the payment ArrayList
+                for(Transaction t: yearToDate){
+                    //Print out formatted version of information contained in Transaction defined as t, (%-12s = Left align String with 12 character space, %10.2f = Right aligned float with 10 character space and shows 2 decimal points)
+                    System.out.printf("%-12s| %-11s| %-50s| %-22s|%10.2f\n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                }
+        }
+            catch(IOException e){
+
+        }
 
     }
 
