@@ -61,6 +61,13 @@ public class LedgarApp {
                 //User chose to run custom search
                 else if(input == 4) {
                 // A new screen that allows the user to run pre-defined reports or to run a custom search
+
+                    int reportInput = displayReportMenu();
+
+                    if(reportInput == 1){
+                        sortMonthToDate();
+                    }
+
                     }
             //User chose to return to main menu/ homepage
             else if(input == 5){
@@ -72,6 +79,75 @@ public class LedgarApp {
                 System.out.println("Closing Ledger Application");
                 System.exit(0);
             }
+    }
+
+    private static void sortMonthToDate() {
+        //Create an arraylist with Transaction object named monthToDate
+        ArrayList<Transaction> monthToDate = new ArrayList<>();
+
+        //Define and assign variables for current date (Month + Year)
+        LocalDate today = LocalDate.now();
+        int currentMonth = today.getMonthValue();
+        int currentYear = today.getYear();
+
+        //Create Buffered Reader with File Reader to read transactions file
+        try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
+
+            //Read each line in file and split by |
+            String line;
+            while((line = buffRead.readLine()) != null){
+                String[] transInfo = line.split("\\|");
+
+                //Skip over the header
+                if(transInfo[0].trim().equalsIgnoreCase("Date")){
+                    continue;
+                }
+
+                try{
+                    //Parse necessary variables based on data types
+                    LocalDate date = LocalDate.parse(transInfo[0].trim());
+                    LocalTime time = LocalTime.parse(transInfo[1].trim());
+                    String description = transInfo[2].trim();
+                    String vendor = transInfo[3].trim();
+                    double amount = Double.parseDouble(transInfo[4].trim());
+
+                    //Ask if Month + Year in file is the same is current Month + Year , then adding to monthToDate arraylist if true
+                    if(date.getMonthValue() == currentMonth && date.getYear() == currentYear){
+                        monthToDate.add(new Transaction(date,time,description,vendor,amount));
+                    }
+
+                }//Handles any exception and throws text to console
+                catch(Exception e){
+                    System.out.println("Invalid line. Skipping");
+                }
+            }
+            //Call .sort method on monthToDate arraylist, Sort by date field in each Transaction, .reversed() flips order of comparison, .thenComparing adds secondary sorting rule which sorts by time after, .reversed() flips time sorting as well
+            monthToDate.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+
+            //Create String named header to add header to be displayed to user
+            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            System.out.println(header);
+
+            //Loop through all Transaction objects in the payment ArrayList
+            for(Transaction t: monthToDate){
+                //Print out formatted version of information contained in Transaction defined as t, (%-12s = Left align String with 12 character space, %10.2f = Right aligned float with 10 character space and shows 2 decimal points)
+                System.out.printf("%-12s| %-11s| %-50s| %-22s|%10.2f\n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            }
+
+
+        }
+           catch (IOException e){
+               System.out.println("Could not read file.");
+           }
+    }
+
+    private static int displayReportMenu() {
+        System.out.println("Report: ");
+        System.out.println("Please select how you would like to filter ledger");
+        System.out.println("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back to Ledger page");
+
+        int reportInput = scan.nextInt();
+        return reportInput;
     }
 
     private static void sortByPayments(){
@@ -154,7 +230,6 @@ public class LedgarApp {
                         String description = transInfo[2].trim();
                         String vendor = transInfo[3].trim();
                         double amount = Double.parseDouble(transInfo[4].trim());
-
                         //Add split up transaction to defined Transaction ArrayList
                         if (amount > 0) {
                             deposits.add(new Transaction(date, time, description, vendor, amount));
