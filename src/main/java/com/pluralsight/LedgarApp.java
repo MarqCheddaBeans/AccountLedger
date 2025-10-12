@@ -599,6 +599,7 @@ public class LedgarApp {
     }
 
     private static int displayMainMenu() {
+
         System.out.println("What would you like to do today?");
         System.out.println("""
                 1) Add deposit
@@ -607,7 +608,7 @@ public class LedgarApp {
                 4) Exit
                 """);
         int choice = scan.nextInt();
-        while (choice<=0 || choice>=6){
+        while (choice<=0 || choice>=5){
             System.out.println("Invalid input. Try again");
             System.out.println("""
                 1) Add deposit
