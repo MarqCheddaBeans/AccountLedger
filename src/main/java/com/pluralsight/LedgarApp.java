@@ -16,85 +16,86 @@ public class LedgarApp {
     public static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
-
+        boolean mainActive = true;
         //Method to prompt user to login
-         userLogin();
+        userLogin();
 
-        //Method to display main menu
-        int choice = displayMainMenu();
+        while (mainActive) {
+            //Method to display main menu
+            int choice = displayMainMenu();
 
-        //Hungry buffer
-        scan.nextLine();
+            //Hungry buffer
+            scan.nextLine();
 
-        //if statements to allow user to navigate through menu
-        //User chose to add deposit
-        if(choice == 1) {
-            userDeposit();
+            //if statements to allow user to navigate through menu
+            //User chose to add deposit
+            if (choice == 1) {
+                userDeposit();
             }
 
-        //User chose to add a payment
-        else if (choice == 2) {
-            userPayment();
+            //User chose to add a payment
+            else if (choice == 2) {
+                userPayment();
             }
+                //User chose to display Ledger
+            if (choice == 3) {
+                boolean ledgerMenuActive = true;
 
-        //User chose to display Ledger
-        else if(choice == 3) {
+                while(ledgerMenuActive) {
+                    //Display ledger menu for user
+                    int input = ledgerMenu();
 
-            //Display ledger menu for user
-            int input = ledgerMenu();
-
-                //User chose to display full ledger
-                if (input == 1) {
-                displayFullLedger();
+                    //User chose to display full ledger
+                    if (input == 1) {
+                        displayFullLedger();
                     }
 
-                //User chose to display only deposits from ledger
-                else if (input == 2) {
-                    sortByDeposits();
+                    //User chose to display only deposits from ledger
+                    else if (input == 2) {
+                        sortByDeposits();
                     }
 
-                //User chose to display only payments from ledger
-                else if (input == 3) {
-                    sortByPayments();
-                    }
+                    //User chose to display only payments from ledger
+                    else if (input == 3) {
+                        sortByPayments();
+                    } else if (input == 4) {
+                        boolean reportMenuActive = true;
 
-                //User chose to run custom search
-                else if(input == 4) {
-                // A new screen that allows the user to run pre-defined reports or to run a custom search
+                        while (reportMenuActive) {
+                            // A new screen that allows the user to run pre-defined reports or to run a custom search
+                            int reportInput = displayReportMenu();
 
-                    int reportInput = displayReportMenu();
-
-                    if(reportInput == 1){
-                        sortMonthToDate();
+                            if (reportInput == 0){
+                                reportMenuActive = false;
+                            }
+                            else if (reportInput == 1) {
+                                sortMonthToDate();
+                            } else if (reportInput == 2) {
+                                //sort previous month
+                                sortPreviousMonth();
+                            } else if (reportInput == 3) {
+                                sortYearToDate();
+                            } else if (reportInput == 4) {
+                                sortPreviousYear();
+                            } else if (reportInput == 5) {
+                                //sort by vendor
+                                sortByVendor();
+                            }
+                        }
                     }
-                    else if(reportInput == 2){
-                        //sort previous month
-                        sortPreviousMonth();
+                    //User chose to return to main menu/ homepage
+                    else if (input == 5) {
+                        ledgerMenuActive = false;
                     }
-                    else if(reportInput == 3){
-                        sortYearToDate();
-                    }
-                    else if(reportInput == 4){
-                        sortPreviousYear();
-                    }
-                    else if(reportInput == 5){
-                        //sort by vendor
-                        sortByVendor();
-                    }
-
-                    }
-            //User chose to return to main menu/ homepage
-            else if(input == 5){
-                //Home - go back to home page
+                }
             }
-
-        //User chose to close application
-        }else if (choice == 4) {
-                System.out.println("Closing Ledger Application");
-                System.exit(0);
-            }
+                //User chose to close application
+                else if (choice == 4) {
+                    System.out.println("Closing Ledger Application");
+                    System.exit(0);
+                }
+        }
     }
-
     private static void sortByVendor() {
         scan.nextLine();
         boolean found = false;
@@ -375,11 +376,16 @@ public class LedgarApp {
     }
 
     private static int displayReportMenu() {
+
         System.out.println("Report: ");
         System.out.println("Please select how you would like to filter ledger");
         System.out.println("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back to Ledger page");
 
         int reportInput = scan.nextInt();
+        while(reportInput <-1 || reportInput >5){
+            System.out.println("Invalid input. Try Again");
+            reportInput = scan.nextInt();
+        }
         return reportInput;
     }
 
@@ -494,11 +500,12 @@ public class LedgarApp {
                 2) Deposits
                 3) Payments
                 4) Reports
+                5) Back To Home
                 """);
         int input = 0;
         input = scan.nextInt();
 
-        while (input <= 0 || input >= 5) {
+        while (input <= 0 || input >= 6) {
             System.out.println("Not a valid input..Try Again");
             input = scan.nextInt();
         }
@@ -548,6 +555,7 @@ public class LedgarApp {
             buffWrite.write("\n"+newLine);
             //Close buffWriter or else information will not write to file
             buffWrite.close();
+            System.out.println("Payment Added Successfully!");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -593,6 +601,7 @@ public class LedgarApp {
             buffWrite.write("\n"+newLine);
             //Close buffWriter or else information will not write to file
             buffWrite.close();
+            System.out.println("Deposit Added Successfully!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -600,7 +609,7 @@ public class LedgarApp {
 
     private static int displayMainMenu() {
 
-        System.out.println("What would you like to do today?");
+        System.out.println("\nWhat would you like to do today?");
         System.out.println("""
                 1) Add deposit
                 2) Make a payment(Debit)
