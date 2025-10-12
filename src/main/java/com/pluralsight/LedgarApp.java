@@ -15,7 +15,7 @@ public class LedgarApp {
     //Create scanner that is class wide
     public static Scanner scan = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         //Method to prompt user to login
          userLogin();
@@ -66,6 +66,9 @@ public class LedgarApp {
 
                     if(reportInput == 1){
                         sortMonthToDate();
+                    }
+                    else if(reportInput == 2){
+
                     }
 
                     }
@@ -121,8 +124,8 @@ public class LedgarApp {
                     System.out.println("Invalid line. Skipping");
                 }
             }
-            //Call .sort method on monthToDate arraylist, Sort by date field in each Transaction, .reversed() flips order of comparison, .thenComparing adds secondary sorting rule which sorts by time after, .reversed() flips time sorting as well
-            monthToDate.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+            //Call .sort method on monthToDate arraylist, Sort by date field in each Transaction, .thenComparing adds secondary sorting rule which sorts by time after, .reversed() flips order of comparison
+            monthToDate.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
             //Create String named header to add header to be displayed to user
             String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
@@ -190,7 +193,7 @@ public class LedgarApp {
                 }
             }
             //Sort by date and time (.reversed() will sort newest at the top)
-            payment.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+            payment.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
             //Create String named header to add header to be displayed to user
             String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
@@ -239,7 +242,7 @@ public class LedgarApp {
                     }
                 }
                 //Sort by date and time (.reversed() will sort newest at the top)
-                deposits.sort(Comparator.comparing(Transaction::getDate).reversed().thenComparing(Transaction::getTime).reversed());
+                deposits.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
             String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
             System.out.println(header);
