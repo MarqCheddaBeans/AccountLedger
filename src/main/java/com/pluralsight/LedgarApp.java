@@ -257,8 +257,7 @@ public class LedgarApp {
 
         //Define and assign variables for current date (Month + Year)
         LocalDate today = LocalDate.now();
-        int currentMonth = today.getMonthValue();
-        int currentYear = today.getYear();
+        LocalDate prevMonth = today.minusDays(30);
 
         //Create Buffered Reader with File Reader to read transactions file
         try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
@@ -282,7 +281,7 @@ public class LedgarApp {
                     double amount = Double.parseDouble(transInfo[4].trim());
 
                     //Ask if Month + Year in file is the same is current Month + Year , then adding to monthToDate arraylist if true
-                    if(date.getMonthValue() == currentMonth && date.getYear() == currentYear){
+                    if(!date.isBefore(prevMonth) && !date.isAfter(today)){
                         monthToDate.add(new Transaction(date,time,description,vendor,amount));
                     }
 
