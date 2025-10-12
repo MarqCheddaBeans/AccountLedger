@@ -5,6 +5,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -101,7 +102,7 @@ public class LedgarApp {
         boolean found = false;
 
         while (!found) {
-            System.out.print("Please enter a vendor: ");
+            System.out.print("\nPlease enter a vendor: ");
             String inputVendor = scan.nextLine();
 
             ArrayList<Transaction> sortByVendor = new ArrayList<>();
@@ -127,21 +128,20 @@ public class LedgarApp {
                             sortByVendor.add(new Transaction(date, time, description, vendor, amount));
                         }
 
-                    } catch (NumberFormatException e) {
-                        throw new RuntimeException(e);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("");;
                     }
 
                 }
 
                 if (sortByVendor.isEmpty()) {
-                    System.out.println("No transactions from: |" + inputVendor + "| Try Again");
+                    System.out.println("\nNo transactions from: |" + inputVendor + "| Try Again");
                 } else {
                     found = true;
-
                     sortByVendor.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
                     //Create String named header to add header to be displayed to user
-                    String header = ("Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+                    String header = ("\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
                     System.out.println(header);
 
                     //Loop through all Transaction objects in the payment ArrayList
@@ -186,14 +186,14 @@ public class LedgarApp {
                         prevYearList.add(new Transaction(date, time, description, vendor, amount));
                     }
 
-                } catch (NumberFormatException e) {
-                    System.out.println("You done did it");
+                } catch (DateTimeParseException e) {
+                    System.out.println("");
                 }
             }
                 prevYearList.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
                 //Create String named header to add header to be displayed to user
-                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+                String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
                 System.out.println(header);
 
                 //Loop through all Transaction objects in the payment ArrayList
@@ -237,14 +237,14 @@ public class LedgarApp {
                     if (date.getMonthValue() == prevMonth && date.getYear() == year) {
                         prevMonthList.add(new Transaction(date, time, description, vendor, amount));
                     }
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException(e);
+                } catch (DateTimeParseException e) {
+                    System.out.println("");
                 }
             }
                 prevMonthList.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
                 //Create String named header to add header to be displayed to user
-                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+                String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
                 System.out.println(header);
 
                 //Loop through all Transaction objects in the payment ArrayList
@@ -257,8 +257,6 @@ public class LedgarApp {
             catch (IOException e){
                 System.out.println("Oh No");
             }
-
-
 
     }
 
@@ -294,14 +292,14 @@ public class LedgarApp {
                         yearToDate.add(new Transaction(date, time, description, vendor, amount));
                     }
                 } catch (Exception e) {
-                    System.out.println("Woah");
+                    System.out.println("");
                 }
             }
 
                 yearToDate.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
                 //Create String named header to add header to be displayed to user
-                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+                String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
                 System.out.println(header);
 
                 //Loop through all Transaction objects in the payment ArrayList
@@ -311,7 +309,7 @@ public class LedgarApp {
                 }
         }
             catch(IOException e){
-
+                System.out.println("Oops");
         }
 
     }
@@ -352,14 +350,14 @@ public class LedgarApp {
 
                 }//Handles any exception and throws text to console
                 catch(Exception e){
-                    System.out.println("Invalid line. Skipping");
+                    System.out.println("");
                 }
             }
             //Call .sort method on monthToDate arraylist, Sort by date field in each Transaction, .thenComparing adds secondary sorting rule which sorts by time after, .reversed() flips order of comparison
             monthToDate.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
             //Create String named header to add header to be displayed to user
-            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
             System.out.println(header);
 
             //Loop through all Transaction objects in the payment ArrayList
@@ -367,8 +365,6 @@ public class LedgarApp {
                 //Print out formatted version of information contained in Transaction defined as t, (%-12s = Left align String with 12 character space, %10.2f = Right aligned float with 10 character space and shows 2 decimal points)
                 System.out.printf("%-12s| %-11s| %-50s| %-22s|%10.2f\n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
             }
-
-
         }
            catch (IOException e){
                System.out.println("Could not read file.");
@@ -377,9 +373,11 @@ public class LedgarApp {
 
     private static int displayReportMenu() {
 
-        System.out.println("Report: ");
+        System.out.println("\nReport: ");
+        System.out.println("----------------------------------------------------");
         System.out.println("Please select how you would like to filter ledger");
-        System.out.println("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back to Ledger page");
+        System.out.println("----------------------------------------------------");
+        System.out.println("\n1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back to Ledger page");
 
         int reportInput = scan.nextInt();
         while(reportInput <-1 || reportInput >5){
@@ -425,14 +423,14 @@ public class LedgarApp {
                     }
                     //catch any exception store in e + display text
                 } catch(Exception e){
-                    System.out.println("WHAT DID YOU DO!?");
+                    System.out.println("");
                 }
             }
             //Sort by date and time (.reversed() will sort newest at the top)
             payment.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
             //Create String named header to add header to be displayed to user
-            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
             System.out.println(header);
 
             //Loop through all Transaction objects in the payment ArrayList
@@ -474,13 +472,13 @@ public class LedgarApp {
                             deposits.add(new Transaction(date, time, description, vendor, amount));
                         }
                     } catch(Exception e){
-                        System.out.println("WHAT DID YOU DO!?");
+                        System.out.println("");
                     }
                 }
                 //Sort by date and time (.reversed() will sort newest at the top)
                 deposits.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
-            String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
+            String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount");
             System.out.println(header);
 
             for(Transaction t: deposits){
@@ -495,7 +493,9 @@ public class LedgarApp {
 
     private static int ledgerMenu() {
         System.out.println("""
+                \n------------------------------------
                 How would you like to view ledgers?
+                ------------------------------------
                 1) All Ledgers
                 2) Deposits
                 3) Payments
@@ -513,7 +513,9 @@ public class LedgarApp {
     }
 
     private static void userPayment() {
+        System.out.println("-------------------");
         System.out.println("Make a payment:");
+        System.out.println("-------------------");
         System.out.println("Enter Description (ex. garnishment)");
 
         String description = scan.nextLine();
@@ -555,14 +557,18 @@ public class LedgarApp {
             buffWrite.write("\n"+newLine);
             //Close buffWriter or else information will not write to file
             buffWrite.close();
+            System.out.println("----------------------------");
             System.out.println("Payment Added Successfully!");
+            System.out.println("----------------------------");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static void userDeposit(){
+        System.out.println("--------------");
         System.out.println("Add Deposit: ");
+        System.out.println("--------------");
         System.out.println("Enter Description (ex. Invoice 1001 paid)");
 
         String description = scan.nextLine();
@@ -601,7 +607,9 @@ public class LedgarApp {
             buffWrite.write("\n"+newLine);
             //Close buffWriter or else information will not write to file
             buffWrite.close();
+            System.out.println("----------------------------");
             System.out.println("Deposit Added Successfully!");
+            System.out.println("----------------------------");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -609,7 +617,9 @@ public class LedgarApp {
 
     private static int displayMainMenu() {
 
-        System.out.println("\nWhat would you like to do today?");
+        System.out.println("\n-----------------------------------");
+        System.out.println("What would you like to do today?");
+        System.out.println("-----------------------------------");
         System.out.println("""
                 1) Add deposit
                 2) Make a payment(Debit)
@@ -663,7 +673,7 @@ public class LedgarApp {
 
             try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"))){
 
-                String header = ( "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount\n");
+                String header = ( "\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t | Vendor\t\t\t\t |   Amount\n");
                 buffWrite.write(header);
 
                 System.out.print(header);
