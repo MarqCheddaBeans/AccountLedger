@@ -1,23 +1,80 @@
 
-Date		| Time		 | Description										 | Vendor				 |   Amount
-2025-10-12  | 12:27:45   | garn                                              | sam did it            |   -500.00
-2025-10-12  | 12:26:51   | Ivoice                                            | Amazing               |    100.00
-2025-10-12  | 12:05:20   | garnish                                           | anotherone            |   -100.00
-2025-10-12  | 12:05:09   | test                                              | testtt                |      1.00
-2025-10-12  | 11:46:07   | payment                                           | unclesame             |     -2.00
-2025-10-12  | 11:45:56   | Testt                                             | amaon                 |      1.00
-2025-10-12  | 11:41:01   | Dest                                              | mom                   |    100.00
-2025-10-12  | 11:36:52   | Test                                              | Test                  |    100.00
-2025-10-12  | 11:20:11   | SuperGarnishment                                  | You already know      |  -1500.00
-2025-10-12  | 11:17:20   | Description                                       | Cool Vendor           |    100.00
-2025-10-12  | 10:30:28   | MoneyMoneyMoney                                   | Mom                   |    123.00
-2025-10-12  | 10:29:49   | More money cuz youre broke                        | Mom                   |     50.00
-2025-10-11  | 21:27:13   | Garnishment                                       | UncleSam              |   -289.53
-2025-10-11  | 17:04:51   | Ben and Jerrys Ice Cream                          | Target                |     -3.99
-2025-10-11  | 10:13:46   | Wisely                                            | YUU                   |     50.00
-2025-10-10  | 19:44:56   | Debt Repayment                                    | Debt Collector        |   -150.00
-2025-09-11  | 21:26:25   | Zelle: Because youre broke                        | Mom                   |    100.00
-2025-09-11  | 13:08:28   | Another Wisely                                    | YearUpUnited          |    100.00
-2025-09-10  | 18:42:07   | Wisely                                            | YUU                   |     50.00
-2024-09-15  | 11:15:19   | Invoice 1001 paid                                 | Joe                   |   1500.00
-2023-04-15  | 10:13:25   | Ergonomic keyboard                                | Amazon                |    -89.50
+Date		| Time		 | Description												   | Vendor				   |   Amount
+2025-10-11  | 21:27:13   | Garnishment                                                 | UncleSam              |   -289.53
+2025-10-10  | 16:47:12   | Sold: "Deadpool oven mitt (highly impractical)"             | Online Sale           |     17.00
+2025-10-06  | 11:20:11   | SuperGarnishment                                            | IRS                   |  -1500.00
+2025-09-11  | 17:04:51   | Ben and Jerrys Ice Cream                                    | Target                |     -3.99
+2025-09-11  | 15:33:54   | Bought: "Naruto ramen bowls (believe it!)"                  | Naruto Merch          |   -130.00
+2025-09-10  | 19:44:56   | Debt Repayment                                              | Debt Collector        |   -150.00
+2025-09-10  | 14:28:20   | Sold: "Funko Pop: Glow-in-the-dark All Might"               | Local Sale            |     29.00
+2025-09-01  | 10:13:46   | Rent Paid                                                   | Landlord              |  -1500.00
+2025-08-29  | 10:22:18   | Sold: "Dr. Strange Magic Hands Gloves"                      | Local Sale            |     24.00
+2025-08-27  | 09:14:52   | Refund: "Blink-182 shirt too happy for customer"            | Angry Customer        |    -20.00
+2025-08-08  | 13:15:59   | Sold: "Rick & Morty Pickle Rick Body Pillow"                | Local Sale            |     65.00
+2025-08-05  | 12:45:03   | Sold: "Dragon Ball Z – Senzu Bean Replica Jar"              | Local Sale            |     18.00
+2025-08-02  | 11:57:41   | Paid: "Green Day Live Bootleg Vinyl (bootleg tax)"          | Green Day Merch       |    -47.00
+2025-07-24  | 18:05:30   | Sold: "Marvel socks: mismatched on purpose"                 | Online Sale           |     12.00
+2025-07-22  | 17:47:10   | Sold: "Death Note notebook (definitely blank... probably)"  | Online Sale           |     16.00
+2025-07-19  | 16:22:33   | Bought: "Invader Zim Hot Topic leftovers"                   | Invader Zim Merch     |   -215.00
+2025-07-17  | 15:18:25   | Sold: "My Hero Academia: Midoriya Sweatband"                | Local Sale            |      9.00
+2025-07-15  | 14:40:48   | Sold: "One Punch Man Cape (includes bald cap)"              | Online Sale           |     32.00
+2025-06-12  | 13:57:44   | Inventory Loss: "Customer yeeted Funko Pop box"             | Funko Pop             |    -15.00
+2025-06-10  | 13:01:36   | Sold: "Blink-182 Enema Air Freshener"                       | Online Sale           |      6.00
+2025-06-08  | 12:16:21   | Sold: "Dragon Ball Z: Frieza’s Final Form Towel"            | Local Sale            |     14.00
+2025-06-05  | 11:22:43   | Bought: "Marvel enamel pins (500 count)"                    | Avengers Merch HQ     |   -300.00
+2025-05-29  | 18:21:07   | Paid: "Custom store banner: ‘Where Weird Wins’"             | Store Purchase        |   -150.00
+2025-05-27  | 17:18:34   | Sold: "Deadpool talking chimichanga plush"                  | Local Sale            |     20.00
+2025-05-03  | 10:44:18   | Sold: "Invader Zim Plush (screams randomly)"                | Local Sale            |     22.00
+2025-05-01  | 12:30:01   | Rent Paid                                                   | Landlord              |  -1500.00
+2025-05-01  | 09:37:50   | Sold: "Rick & Morty ‘Wubba Lubba Dub Dub’ Socks"            | Rick And Morty Merch  |     11.00
+2025-04-25  | 16:04:11   | Bought: "Naruto headbands (believe it!)"                    | Naruto Merch          |   -140.00
+2025-04-23  | 15:40:44   | Sold: "Funko Pop: Saitama (One Punch Man)"                  | Online Sale           |     25.00
+2025-04-20  | 14:29:03   | Sold: "Rick & Morty Portal Gun replica"                     | Online Sale           |     60.00
+2025-04-18  | 13:56:30   | Refund: "Customer allergic to irony (Death Note)"           | Angry Customer        |    -45.00
+2025-04-16  | 12:12:59   | Sold: "My Hero Academia: All Might figurine"                | Online Sale           |     28.00
+2025-03-14  | 11:06:19   | Sold: "Invader Zim 'Doomsday' hoodie"                       | Local Sale            |     45.00
+2025-03-12  | 10:22:07   | Bought: "Blink-182 beanie (emo tax applied)"                | Blink182 Merch        |    -12.00
+2025-03-10  | 09:31:42   | Sold: "Dragon Ball Z Scouter (power level uncertain)"       | Local Sale            |     21.00
+2025-03-08  | 08:49:53   | Bought: "Marvel collectible pins (bulk order)"              | Avengers Merch        |   -280.00
+2025-03-06  | 07:55:20   | Sold: "Invader Zim Hoodie (screams randomly)"               | Online Sale           |     22.00
+2025-02-04  | 06:34:11   | Sold: "Rick & Morty ‘Wubba Lubba Dub Dub’ Socks"            | Online Sale           |     11.00
+2025-02-02  | 05:27:45   | Paid: "Custom store banner: ‘Where Weird Wins’"             | Store Purchase        |   -150.00
+2025-02-01  | 12:30:01   | Rent Paid                                                   | Landlord              |  -1500.00
+2025-01-28  | 12:22:19   | Bought: "Naruto Kunai replicas (dangerous!)"                | Naruto Merch          |    -80.00
+2025-01-25  | 10:13:44   | Sold: "Green Day: Basket Case cassette (used)"              | Local Sale            |     14.00
+2025-01-22  | 15:55:32   | Refund: "Deadpool apron set — too spicy for customers"      | Angry Customer        |    -18.00
+2025-01-20  | 14:48:10   | Sold: "Dr. Strange Cloak of Levitation (replica)"           | Avengers Merch        |     40.00
+2024-12-31  | 03:35      | Avatar: The Art of the Animated Series (Hardcover)          | ATLA Merch            |     34.95
+2024-12-29  | 01:20      | A Tribe Called Quest Patch Set                              | ATCQ Merch            |      5.50
+2024-12-18  | 11:22:33   | Sold: "Marvel Comic Con Badge Holder (worn proudly)"        | Avengers Merch        |      8.00
+2024-12-17  | 02:05      | Dragon Ball Z: Vegeta Pop! Vinyl                            | Funko Pop             |     14.99
+2024-12-15  | 16:30:24   | Bought: "Invader Zim action figures (batch order)"          | Invader Zim Merch     |   -180.00
+2024-12-12  | 13:05:44   | Sold: "Funko Pop: Deku’s Power Punch Pose"                  | Funko Pop             |     30.00
+2024-12-10  | 11:50:22   | Sold: "Rick & Morty Mr. Meeseeks Box                        | Rick and Morty Merch  |     40.00
+2024-12-08  | 10:33:18   | Bought: "Marvel Captain America shield keychains (bulk)"    | Avengers Merch        |   -120.00
+2024-12-05  | 09:18:45   | Sold: "Blink-182 ‘Feeling This’ limited edition vinyl"      | Local Sale            |     55.00
+2024-12-03  | 10:00      | Sold: Invader Zim "Doom Song" Mug                           | Invader Zim Merch     |      8.49
+2024-12-03  | 08:05:12   | Refund: "One Punch Man bald cap (slipped off mid-punch)"    | Angry Customer        |    -15.00
+2024-12-01  | 11:15:19   | Rent Paid                                                   | Landlord              |  -1500.00
+2024-11-28  | 06:20      | Sold: Avatar: Aang Airbending Scroll Replica                | Online Sale           |     19.99
+2024-11-15  | 04:44      | A Tribe Called Quest Tour Poster Reprint (1996)             | ATCQ Merch            |     11.75
+2024-11-01  | 12:30:01   | Rent Paid                                                   | Landlord              |  -1500.00
+2024-11-01  | 07:50:33   | Sold: "Naruto Shadow Clone Cookie Tin"                      | Online Sale           |     22.00
+2024-10-22  | 03:50      | Sold: Dragon Ball Z Blind Box Mini-Figures x2               | Local Sale            |     13.00
+2024-09-10  | 02:45      | Refund: Invader Zim “Zim vs Dib” Mini Figure Set            | Angry Customer        |     17.95
+2024-09-01  | 12:30      | Bought: Avatar the Last Airbender: Katara Funko Pop         | Funko Pop             |    -12.99
+2024-08-19  | 11:17      | Sold: A Tribe Called Quest: Midnight Marauders Poster       | Local Sale            |      9.99
+2024-08-03  | 01:30      | Sold: Dragon Ball Z: Goku LED Lamp                          | Local Sale            |     23.99
+2024-07-28  | 10:05      | Sold: Invader Zim Collector's Button Set                    | Local Sale            |      6.50
+2024-07-14  | 05:58      | Bought: Avatar: Toph Beifong Metal Earth Kit                | ATLA Merch            |     14.75
+2024-06-09  | 03:20      | Refund: ATCQ Enamel Pin Set (limited run)                   | Angry Customer        |     12.00
+2024-06-09  | 03:20      | Refund: A Tribe Called Quest Cassette Replica               | Angry Customer        |      7.95
+2024-05-13  | 12:47      | Sold: Dragon Ball Z: Frieza Saga Manga Set (3 volumes)      | Local Sale            |     29.99
+2024-05-02  | 04:12      | Sold: Invader Zim Mini Artbook (signed copy)                | Local Sale            |     21.00
+2024-04-07  | 02:30      | Sold: Avatar The Last Airbender Vol. 2 (The Promise)        | Local Sale            |     10.99
+2024-04-07  | 02:30      | Bought: Appa air freshener (vanilla scent)                  | ATLA Merch            |      4.00
+2024-03-18  | 11:10      | Bought: A Tribe Called Quest Logo Tee (XL)                  | ATCQ Merch            |     18.50
+2024-02-03  | 01:45      | Sold: Dragon Ball Z Vol. 1 (Collector's Edition)            | Local Sale            |     16.99
+2024-02-03  | 01:45      | Sold: Dragon Ball Z: Saiyan Saga Poster                     | Local Sale            |      7.25
+2024-01-12  | 10:34      | Refund: Invader Zim #1 (standard cover)                     | Invader Zim           |      4.99
+2024-01-12  | 10:34      | Bought: Invader Zim Gir plush keychain                      | Invader Zim           |      9.50

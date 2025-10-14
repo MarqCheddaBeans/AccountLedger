@@ -32,6 +32,7 @@ public class Transaction {
         return amount;
     }
 
+
     public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
