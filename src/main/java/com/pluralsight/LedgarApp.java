@@ -468,6 +468,10 @@ public class LedgarApp {
         //Create int variable named year, store value of year from prevMonthDate (ex. 2025-09-13 == 2025)
         int year = prevMonthDate.getYear();
 
+        if(prevMonth == 0){
+            prevMonth = 12;
+        }
+
         //try\catch block with resources, create BufferedReader named buffRead containing FileReader, reading "transactions.csv" file
         try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
 
@@ -533,11 +537,10 @@ public class LedgarApp {
 
         //Define variables for todays date according to system and 1 year from todays date
         LocalDate today = LocalDate.now();
-        LocalDate oneYearAgo = today.minusYears(1);
+        int year = today.getYear();
 
-        //try\catch with resources , create buffered readyer containing file reader , reading "transactions.csv" file
+        //try\catch with resources , create buffered reader containing file reader , reading "transactions.csv" file
         try(BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"))){
-
 
             String line;
             while((line = buffRead.readLine()) != null) {
@@ -557,9 +560,10 @@ public class LedgarApp {
                     String vendor = transInfo[3].trim();
                     double amount = Double.parseDouble(transInfo[4].trim());
 
-                    if (!date.isBefore(oneYearAgo) && !date.isAfter(today)) {
+                    if (date.getYear() == year && !date.isAfter(today)) {
                         yearToDate.add(new Transaction(date, time, description, vendor, amount));
                     }
+
                 } catch (Exception e) {
                     System.out.println("");
                 }
@@ -589,7 +593,8 @@ public class LedgarApp {
 
         //Define and assign variables for current date (Month + Year)
         LocalDate today = LocalDate.now();
-        LocalDate prevMonth = today.minusDays(30);
+        int year = today.getYear();
+        int month = today.getMonthValue();
 
         //try\catch with resources , Create Buffered Reader with File Reader to read transactions file
         try(BufferedReader buffRead = new BufferedReader(new FileReader("transactions.csv"))){
@@ -613,7 +618,7 @@ public class LedgarApp {
                     double amount = Double.parseDouble(transInfo[4].trim());
 
                     //Ask if Month + Year in file is the same is current Month + Year , then adding to monthToDate arraylist if true
-                    if(!date.isBefore(prevMonth) && !date.isAfter(today)){
+                    if(date.getMonthValue() == month && !date.isAfter(today) && date.getYear()==year){
                         monthToDate.add(new Transaction(date,time,description,vendor,amount));
                     }
 
@@ -910,6 +915,7 @@ public class LedgarApp {
     }
 
     private static void displayFullLedger() {
+
         try (BufferedReader buffRead = new BufferedReader( new FileReader("transactions.csv"))){
 
             ArrayList<Transaction> transactions = new ArrayList<>();
@@ -948,7 +954,7 @@ public class LedgarApp {
                     String formatInfo = String.format("%-12s| %-11s| %-60s| %-22s|%10.2f", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                     System.out.println(formatInfo);
                     buffWrite.write(formatInfo);
-                    buffWrite.newLine();
+                    //buffWrite.newLine();
                 }
             } catch (IOException e) {
                 System.out.println("Woa, theres a problem here.");
