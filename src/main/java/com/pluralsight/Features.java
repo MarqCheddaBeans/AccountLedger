@@ -1,12 +1,9 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.sql.Array;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,15 +15,17 @@ public class Features {
 
     public static void customSearch() {
 
+        //Create List of Transaction named allTransactions
         List<Transaction> allTransactions = readTransactions("transactions.csv");
 
+        //Create variable to keep customSearch running
         boolean found = false;
-
-                while(!found){
-
+        //Loop to keep customSearch running until broken by user
+        while(!found){
+                    //Create list containing Transaction object named customSearch
                     List<Transaction> customSearch = new ArrayList<>();
 
-                    //Prompt user for filters
+                    //Prompt user for filters + store input
                     System.out.print("Enter start date (yyyy-MM-dd) or leave empty: ");
                     String userStartDate = scan.nextLine().trim();
 
@@ -41,6 +40,7 @@ public class Features {
 
                     System.out.print("Enter amount or leave empty: ");
                     String inputAmount = scan.nextLine().trim();
+
 
                     LocalDate startDate = null;
                     LocalDate endDate = null;
@@ -59,9 +59,12 @@ public class Features {
                             userAmount = Double.parseDouble(inputAmount);
                     }
                     catch (Exception e){
+
                         System.out.println("Invalid date or amount format. Try again");
+
                         //restart loop
                         continue;
+
                     }
 
                     for(Transaction t : allTransactions){
@@ -102,7 +105,7 @@ public class Features {
                         found = true;
                         printTransactions(customSearch);
                     }
-                }
+        }
     }
 
     public static void sortByVendor() {
@@ -264,7 +267,10 @@ public class Features {
        printTransactions(deposits);
     }
 
+    //method to allow user to add payment
     public static void userPayment() {
+
+        //prompt user for information
         System.out.println("-------------------");
         System.out.println("Make a payment:");
         System.out.println("-------------------");
@@ -272,6 +278,7 @@ public class Features {
 
         String description = scan.nextLine();
 
+        //No user error
         while(description.equalsIgnoreCase("")){
             System.out.println("Bad description...Try Again");
             description = scan.nextLine();
@@ -280,6 +287,7 @@ public class Features {
         System.out.println("Enter Vendor (ex. Uncle Sam)");
         String vendor = scan.nextLine();
 
+        //No user error
         while(vendor.equalsIgnoreCase("")){
             System.out.println("Um...No, Try Again");
             vendor = scan.nextLine();
@@ -288,36 +296,55 @@ public class Features {
         System.out.println("How much did you spend this time??");
         double amount = scan.nextDouble();
 
+        //No user error
         while(amount <=0){
             System.out.println("Enter a valid number");
             amount = scan.nextDouble();
         }
-        //Turn user amount negative to represent payment
-        amount *= -1;
 
+        //Turn user amount negative to represent payment
+        amount = -amount;
+
+        //Create LocalDate variable named date, assigning to date now based on system
         LocalDate date = LocalDate.now();
+        //Create a variable to store format rules for date
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //Create string to store formatted date
         String formattedDate = date.format(dateFormat);
 
+        //Create LocalTime variable named time, store current time based on system
         LocalTime time = LocalTime.now();
+        //Create variable to store format rules for time
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        //Create string to store formatted time
         String formattedTime = time.format(timeFormat);
 
+        //try\catch with resources to create BufferWriter containing filewriter to write to transactions.csv, append = true to add to file instead of overwriting file
         try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true))){
 
+            //Format data in transaction to look pretty
             String newLine = String.format("%-12s| %-11s| %-50s| %-22s|%10.2f", formattedDate, formattedTime, description, vendor, amount);
+            //Write foratted date in transactions.csv
             buffWrite.write("\n"+newLine);
+
             //Close buffWriter or else information will not write to file
             buffWrite.close();
+
+            //Display confirmation message
             System.out.println("----------------------------");
             System.out.println("Payment Added Successfully!");
             System.out.println("----------------------------");
+
+            //Handle IOException
         } catch (IOException e) {
             System.out.println();;
         }
     }
 
+    //Method to allow user to add deposit
     public static void userDeposit(){
+
+        //Prompt user for deposit information + store in variables
         System.out.println("--------------");
         System.out.println("Add Deposit: ");
         System.out.println("--------------");
@@ -325,6 +352,7 @@ public class Features {
 
         String description = scan.nextLine();
 
+        //No user error
         while(description.equalsIgnoreCase("")){
             System.out.println("You did not enter anything...Try Again");
             description = scan.nextLine();
@@ -332,6 +360,7 @@ public class Features {
         System.out.println("Enter Vendor (ex. Amazon)");
         String vendor = scan.nextLine();
 
+        //No user error
         while(vendor.equalsIgnoreCase("")){
             System.out.println("You did not enter anything...Try Again");
             vendor = scan.nextLine();
@@ -341,64 +370,66 @@ public class Features {
         double amount = 0.00;
         amount = scan.nextDouble();
 
+        //No user error
         while(amount < 0){
             System.out.println("Invalid number. Try again");
             amount = scan.nextDouble();
         }
 
+        //Create Transaction object named deposit
         Transaction deposit = new Transaction(LocalDate.now(),LocalTime.now(),description,vendor,amount);
 
+        //Call method to read file
         List<Transaction> allTransactions = readTransactions("transactions.csv");
 
+        //add deposits to allTransactions list
         allTransactions.add(deposit);
 
+        //Call method to display transactions stored in allTransactions list(deposits)
         printTransactions(allTransactions);
 
+        //Rewrite file to add user deposit
         saveTransactions(allTransactions);
 
+        //Display confirmation to user
         System.out.println("----------------------------");
         System.out.println("Deposit Added Successfully!");
         System.out.println("----------------------------");
 
-//        try ( BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv",true))){
-//            String newLine = String.format("%-12s| %-11s| %-50s| %-22s|%10.2f", formattedDate, formattedTime, description, vendor, amount);
-//            buffWrite.write("\n"+newLine);
-//            //Close buffWriter or else information will not write to file
-//            buffWrite.close();
-//            System.out.println("----------------------------");
-//            System.out.println("Deposit Added Successfully!");
-//            System.out.println("----------------------------");
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-
-
     }
 
+    //Create method to display full Ledger
     public static void displayFullLedger() {
 
+        //Create Transaction list object named allTransactions that will store read transactions from file
         List<Transaction> allTransactions = readTransactions("transactions.csv");
 
+        //Call method to print transactions
         printTransactions(allTransactions);
 
+        //Call method to save transactions(rewrite file all with all transactions)
         saveTransactions(allTransactions);
     }
 
     // Method that prompts user to log in
     public static void userLogin() {
+        //Create variables representing login credentials
         String validUser = "Marques123";
         String validPass = "notMyPass";
 
+        //prompt user for credentials
         System.out.println("Please log in to your account.");
 
+        //Loop to prevent user error, breaks if user enters valid input
         for(int attempt = 3; attempt > 0; attempt--){
             System.out.print("Enter Username: ");
             String userName = scan.nextLine();
 
+            //exits loop + allow user to continue
             if(userName.equalsIgnoreCase(validUser)){
                 break;
             }
+            //closes app if user runs out of attempts
             else if(attempt == 1){
                 System.out.println("You shall not pass!");
                 System.exit(0);
@@ -408,6 +439,7 @@ public class Features {
             }
         }
 
+        //Loop to prevent user error, breaks if user enters valid input
         for(int attempt = 3; attempt > 0; attempt--){
 
             System.out.print("Enter password: ");
@@ -416,6 +448,7 @@ public class Features {
             if(password.equals(validPass)){
                 break;
             }
+            //closes app if user runs out of attempts
             else if(attempt == 1){
                 System.out.println("You shall not pass!");
                 System.exit(0);
@@ -425,6 +458,7 @@ public class Features {
             }
 
         }
+        //if valid credentials, display welcome text
         System.out.println("Welcome Marques!");
     }
 }

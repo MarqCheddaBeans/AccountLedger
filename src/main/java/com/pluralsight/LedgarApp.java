@@ -12,205 +12,142 @@ public class LedgarApp {
     public static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
-        //Create bool variable that will keep application running until user chooses to exit
-        boolean mainActive = true;
 
         //Method to prompt user to login
         userLogin();
 
+        //Main loop to run application menu until user exits
         while (true) {
-            int choice = displayMainMenu();
-            scan.nextLine(); // Hungry buffer
 
+            //Display main menu and get users choice
+            int choice = displayMainMenu();
+
+            // Hungry buffer
+            scan.nextLine();
+
+            //Use switch case to handle users main menu input
             switch (choice) {
                 case 1:
+                    //Allow user to deposit if chose 1
                     userDeposit();
                     break;
+
                 case 2:
+                    //Allow user to add payment if chose 2
                     userPayment();
                     break;
+
                 case 3:
 
+                    //If user chose 3, create bool to keep on ledger menu
                     boolean ledgerMenuActive = true;
 
+                    //keep ledger menu active until user exits
                     while (ledgerMenuActive) {
 
+                        //display ledger menu and get user input
                         int input = ledgerMenu();
 
+                        //Handle user input from ledger menu with switch case
                         switch (input) {
                             case 1:
+                                //Display full ledger
                                 displayFullLedger();
                                 break;
+
                             case 2:
+                                //Display only deposits
                                 sortByDeposits();
                                 break;
+
                             case 3:
+                                //Display only payments
                                 sortByPayments();
                                 break;
-                            case 4:
 
+                            case 4:
+                                //Create bool to keep report menu active
                                 boolean reportMenuActive = true;
 
+                                //while loop keeping report menu active
                                 while (reportMenuActive) {
 
+                                    //Display report menu and get user input
                                     int reportInput = displayReportMenu();
 
+                                    //Switch case to handle user report menu input
                                     switch (reportInput) {
                                         case 0:
+                                            //User chose to return to previous menu, close report menu
                                             reportMenuActive = false;
                                             break;
+
                                         case 1:
+                                            //sort transactions by month to date
                                             sortMonthToDate();
                                             break;
+
                                         case 2:
+                                            //sort transactions by previous month
                                             sortPreviousMonth();
                                             break;
+
                                         case 3:
+                                            //sort transactions by year to date
                                             sortYearToDate();
                                             break;
+
                                         case 4:
+                                            //sort transactions by previous year
                                             sortPreviousYear();
                                             break;
+
                                         case 5:
+                                            //sort transactions by user inputted vendor
                                             sortByVendor();
                                             break;
+
                                         case 6:
-                                            scan.nextLine(); // if needed
+                                            //hungry buffer
+                                            scan.nextLine();
+                                            //allow user to sort by custom input
                                             customSearch();
                                             break;
+
                                         default:
+                                            //Handles invalid input in reports menu
                                             System.out.println("Invalid option in report menu.");
                                     }
                                 }
                                 break;
+
                             case 5:
+                                //User chose to return to previous screen, close ledger menu
                                 ledgerMenuActive = false;
                                 break;
+
                             default:
+                                //Handle invalid input in ledger menu
                                 System.out.println("Invalid option in ledger menu.");
                         }
                     }
                     break;
+
                 case 4:
+                    //user chose to exit application
                     System.out.println("Closing Ledger Application");
                     break;
+
                 default:
+                    //Handles invalid input in main menu
                     System.out.println("Invalid main menu option.");
             }
-            // Exit main loop if user chose option 4
+
+            // Exit main loop if user chose option 4, ending application
             if (choice == 4) {
                 break;
             }
-        }
-        // place code in while loop to keep application running until exited by user, (Returns user to main menu instead of ending app)
-//        while (true) {
-//            //Method to display main menu
-//            int choice = displayMainMenu();
-//
-//            //Hungry buffer
-//            scan.nextLine();
-//
-//            //if statements to allow user to navigate through menu
-//            //User chose to add deposit
-//            if (choice == 1) {
-//                //Method to allow user to add a deposit to ledger
-//                userDeposit();
-//            }
-//
-//            //User chose to add a payment
-//            else if (choice == 2) {
-//                //Method to allow user to add a payment to ledger
-//                userPayment();
-//            }
-//                //User chose to display Ledger
-//            if (choice == 3) {
-//                //Created bool variable to return user to LedgerMenu after completing prompt until exited by user
-//                boolean ledgerMenuActive = true;
-//
-//                //Place ledger menu in while loop while bool ledgerMenuActive is true(allows user to return to ledger menu instead of application auto closing)
-//                while(ledgerMenuActive) {
-//
-//                    //Display ledger menu for user + prompt user for choice
-//                    int input = ledgerMenu();
-//
-//                    //User chose to display full ledger
-//                    if (input == 1) {
-//                        //Method to display full ledger, sorting them newest at the top
-//                        displayFullLedger();
-//                    }
-//
-//                    //User chose to display only deposits from ledger
-//                    else if (input == 2) {
-//                        //Method to sort and display only deposits from transactions in ledger
-//                        sortByDeposits();
-//                    }
-//
-//                    //User chose to display only payments from ledger
-//                    else if (input == 3) {
-//                        //Method to sort and display only payments from transaction in ledger
-//                        sortByPayments();
-//                    }
-//                    //User chose report menu for filtered ledger search
-//                    else if (input == 4) {
-//                        //Create bool variable to keep returning user to report menu until user exits or goes to previous menu
-//                        boolean reportMenuActive = true;
-//
-//                        //Place report menu in loop to prevent application closing without user prompt
-//                        while (reportMenuActive) {
-//                            // A new screen that allows the user to run pre-defined reports
-//                            int reportInput = displayReportMenu();
-//
-//                            // User chose to return to ledger menu
-//                            if (reportInput == 0){
-//                                //Change bool value to exit report menu loop, returning user to previous menu(Ledger menu)
-//                                reportMenuActive = false;
-//                            }
-//                            //User chose to sort transaction month to date(past 30 days)
-//                            else if (reportInput == 1) {
-//                                //Method to sort and display transaction by month to date
-//                                sortMonthToDate();
-//                            }
-//                            //User chose to sort transaction by previous month
-//                            else if (reportInput == 2) {
-//                                //Method to sort and display transactions by previous month
-//                                sortPreviousMonth();
-//                            }
-//                            //User chose to sort transactions year to date (past 365 days)
-//                            else if (reportInput == 3) {
-//                                //Method to sort and display transaction by year to date
-//                                sortYearToDate();
-//                            }
-//                            //User chose to sort transactions by previous year
-//                            else if (reportInput == 4) {
-//                                //Method to sort and display transactions by previous year
-//                                sortPreviousYear();
-//                            }
-//                            //User chose to sort transactions by searched vendor
-//                            else if (reportInput == 5) {
-//                                //Method to sort and display transactions from user inputted vendors
-//                                sortByVendor();
-//                            }
-//                            else if (reportInput == 6){
-//                                scan.nextLine();
-//                                customSearch();
-//                            }
-//                        }
-//                    }
-//                    //User chose to return to main menu/ homepage
-//                    else if (input == 5) {
-//                        //Change ledgerMenuActive to false, exiting ledger menu loop and sending user to previous menu(Main menu)
-//                        ledgerMenuActive = false;
-//                    }
-//                }
-//            }
-//                //User chose to close application
-//                else if (choice == 4) {
-//                    //Display text to user stating ledger app is closing
-//                    System.out.println("Closing Ledger Application");
-//                    //break = Exit Main menu loop, ending application
-//                    break;
-//                }
-//        }
-    }
 
+        }
+    }
 }

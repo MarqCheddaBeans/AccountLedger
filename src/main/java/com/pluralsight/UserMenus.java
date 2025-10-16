@@ -31,7 +31,6 @@ public class UserMenus {
                 5) Back To Home
                 """);
         int input = scan.nextInt();
-
         return input;
     }
 
