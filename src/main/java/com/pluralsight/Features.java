@@ -497,6 +497,7 @@ public class Features {
         String validPass = "notMyPass";
 
         //prompt user for credentials
+
         System.out.println("Please log in to your account.");
 
         //Loop to prevent user error, breaks if user enters valid input

@@ -13,6 +13,9 @@ public class LedgarApp {
 
     public static void main(String[] args) {
 
+        //Nice framed title
+        printFramedTitle();
+
         //Method to prompt user to login
         userLogin();
 

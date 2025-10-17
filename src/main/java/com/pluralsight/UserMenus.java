@@ -83,5 +83,17 @@ public class UserMenus {
         return reportInput;
     }
 
+    public static void printFramedTitle() {
+        String title = " MarqBuryComics ";
+        int width = title.length() + 4;
 
+        // Top border
+        System.out.println("╔" + "═".repeat(width) + "╗");
+
+        // Title line
+        System.out.println("║  " + title + "  ║");
+
+        // Bottom border
+        System.out.println("╚" + "═".repeat(width) + "╝\n");
+    }
 }

@@ -110,7 +110,8 @@ public class Transaction {
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         //Create header
-        String header = ("\nDate\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t\t\t   | Vendor\t\t\t\t   |   Amount\n");
+        String header = String.format("\n%-12s| %-11s| %-60s| %-22s| %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+
         //Display header
         System.out.print(header);
 
@@ -124,6 +125,7 @@ public class Transaction {
             //Create a string storing formatted transactions
             String formatTrans = String.format("%-12s| %-11s| %-60s| %-22s|%10.2f\n",
                     formattedDate, formattedTime, t.getDescription(), t.getVendor(), t.getAmount());
+
             //display formatted transactions
             System.out.print(formatTrans);
         }
@@ -135,7 +137,7 @@ public class Transaction {
         //try\catch with resources, create BufferedWriter containing FileWriter, reading "transactions.csv"
         try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter("transactions.csv"))) {
             //Create string for header
-            String header = "Date\t\t| Time\t\t | Description\t\t\t\t\t\t\t\t\t\t\t\t   | Vendor\t\t\t\t   |   Amount\n";
+            String header = String.format("\n%-12s| %-11s| %-60s| %-22s| %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
             //Write header to file
             buffWrite.write(header);
 
