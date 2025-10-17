@@ -147,7 +147,6 @@ public class LedgarApp {
             if (choice == 4) {
                 break;
             }
-
         }
     }
 }

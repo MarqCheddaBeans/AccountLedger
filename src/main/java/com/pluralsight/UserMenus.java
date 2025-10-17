@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.InputMismatchException;
+
 import static com.pluralsight.LedgarApp.scan;
 
 public class UserMenus {
@@ -15,7 +17,19 @@ public class UserMenus {
                 3) Ledger
                 4) Exit
                 """);
-        int choice = scan.nextInt();
+
+        int choice = -1;
+
+        while(true) {
+            try {
+                choice = scan.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("No. Try Again: ");
+                scan.nextLine();
+            }
+        }
+
         return choice;
     }
 
@@ -30,7 +44,19 @@ public class UserMenus {
                 4) Reports
                 5) Back To Home
                 """);
-        int input = scan.nextInt();
+
+        int input = -1;
+
+        while(true) {
+            try {
+                input = scan.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("No. Try Again: ");
+                scan.nextLine();
+            }
+        }
+
         return input;
     }
 
@@ -42,7 +68,18 @@ public class UserMenus {
         System.out.println("----------------------------------------------------");
         System.out.println("\n1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n6) Custom Search\n0) Back to Ledger page");
 
-        int reportInput = scan.nextInt();
+        int reportInput = -1;
+
+        while(true) {
+            try {
+                reportInput = scan.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("No. Try Again: ");
+                scan.nextLine();
+            }
+        }
+
         return reportInput;
     }
 
