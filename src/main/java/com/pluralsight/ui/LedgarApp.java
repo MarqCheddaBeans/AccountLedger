@@ -1,6 +1,5 @@
-package com.pluralsight;
+package com.pluralsight.ui;
 
-import java.io.*;
 import java.util.Scanner;
 
 import static com.pluralsight.Features.*;

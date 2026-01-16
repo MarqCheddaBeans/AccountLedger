@@ -1,15 +1,13 @@
 package com.pluralsight;
 
-import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 
-import static com.pluralsight.LedgarApp.scan;
+import static com.pluralsight.ui.LedgarApp.scan;
 import static com.pluralsight.Transaction.*;
 
 public class Features {
@@ -75,7 +73,7 @@ public class Features {
                         continue;
                     }
 
-                    //Cycle trough allTransactions, storing in transaction object with t variable
+                    //Cycle through allTransactions, storing in transaction object with t variable
                     for(Transaction t : allTransactions){
                         LocalDate date = t.getDate();
                         String description = t.getDescription();

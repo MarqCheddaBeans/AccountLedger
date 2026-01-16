@@ -2,7 +2,7 @@ package com.pluralsight;
 
 import java.util.InputMismatchException;
 
-import static com.pluralsight.LedgarApp.scan;
+import static com.pluralsight.ui.LedgarApp.scan;
 
 public class UserMenus {
 
